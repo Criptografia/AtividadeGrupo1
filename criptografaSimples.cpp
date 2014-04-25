@@ -43,7 +43,7 @@ int main()
 
     string chave, textoClaro, textoCripto;
     
-    cout << "Enter text to convert to ASCII: ";
+    cout << "Digite o texto para ser criptografado: ";
     getline(cin, textoClaro);
     cout << "Digite a chave de criptografia: ";
     cin >> chave;
