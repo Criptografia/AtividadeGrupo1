@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 
@@ -23,13 +24,14 @@ int main()
 
     string chave, textoClaro, textoCripto;
     
-    cout << "Digite o texto critografado:  ";
+    cout << "Digite o texto critografado: ";
     getline(cin, textoCripto);
     cout << "Digite a chave de criptografia: ";
     cin >> chave;
 
     textoClaro = descripto(textoCripto,chave);
     cout << textoClaro << endl;
-    cin >>chave ;
+
+    system("pause");
     return 0;
 }
