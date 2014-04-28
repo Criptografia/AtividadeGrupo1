@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 string subtituicao(string letter,string chave)
@@ -32,6 +33,6 @@ int main()
     textoCripto = subtituicao(textoClaro,chave);
     cout << textoCripto << endl;
     
-    cin >>chave ;
+    system("pause");
     return 0;
 }
