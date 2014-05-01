@@ -1,5 +1,6 @@
 #import <iostream>
 #import <string>
+#include <ctype.h>
 
 using namespace std;
 
@@ -12,24 +13,80 @@ void descriptografia (string key, string texto){
 	//TRANSPOSICAO
 	
 	int tam = texto.length();
-	cout << tam;
+	//cout << tam<<endl;
 	
-	char transp[4][12];
+	
+	//DEFINIR O NUMERO DE COLUNAS
+	int num_col;
+	
+	if (tam%8==0){
+		num_col = tam/8;
+	}
+	else  {
+		num_col = (tam/8)+1;
+	}
+	
+	//cout << num_col<<endl;
+	
+	char transp[8][num_col];
+	
+	
+	//ALOCAR CADA LETRA EM SEU ESPACO
 	
 	for (int i=0; i<tam;i++){
-		if (i<4){
-		
-		transp[i][0] = texto[i]; 
+		if (isspace(texto[i])){
+		texto[i]+=1;
 		}
+		for (int k=1;k<num_col;k++){
+			if (i<k*8){
+				transp[i%8][0] = texto[i];
+				break;
+			}
+			else if (i>=k*8 && i<(k+1)*8){
+				transp[i%8][k] = texto[i];
+				break;
+			}
+			
+		}		
+		
+								
 	}
+	
+//	EXIBIR A MATRIZ
+//	for (int i=0;i<8;i++){
+//		for (int j=0;j<num_col;j++){
+//		
+//		if (j == (num_col-1)){
+//		cout << transp[i][j] <<endl;	
+//		}
+//		else
+//		cout << transp[i][j] <<" ";
+//		}
+//	}
+	
+	
+	//APLICAR A CHAVE
+	int change = key.length();
+//	cout <<change;
+	char aux[num_col];
+		
+	cout << "Texto depois da transposicao:"; 
+	for (int i=0;i<8;i++){
+		for (int j=0;j<num_col;j++){
+			cout << transp[i][j];
+		}
+		cout <<" ";	
+	}
+	
+	
 
 }
 
 
 int main () {
 	
-	string chave = "motocicleta";
-	string texto = "minhabicletaedemetal";
+	string chave = "motoneta";
+	string texto = "Minha bicicleta tem guidon";
 	
 	
 	descriptografia(chave,texto);
