@@ -1,10 +1,9 @@
-#import <iostream>
-#import <string>
-#include <ctype.h>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-void descriptografia (string key, string texto){
+void transposicao (string key, string texto){
 	cout << "Entrou na Funcao\n";
 	cout << "A chave e: "<<key <<endl;
 	cout << "O texto antes da transposicao: " <<texto <<endl;	
@@ -13,7 +12,7 @@ void descriptografia (string key, string texto){
 	//TRANSPOSICAO
 	
 	int tam = texto.length();
-	//cout << tam<<endl;
+	
 	
 	
 	//DEFINIR O NUMERO DE COLUNAS
@@ -25,8 +24,6 @@ void descriptografia (string key, string texto){
 	else  {
 		num_col = (tam/8)+1;
 	}
-	
-	//cout << num_col<<endl;
 	
 	char transp[8][num_col];
 	
@@ -67,7 +64,6 @@ void descriptografia (string key, string texto){
 	
 	//APLICAR A CHAVE
 	int change = key.length();
-//	cout <<change;
 	char aux[num_col];
 		
 	cout << "Texto depois da transposicao:"; 
@@ -89,7 +85,7 @@ int main () {
 	string texto = "Minha bicicleta tem guidon";
 	
 	
-	descriptografia(chave,texto);
+	transposicao(chave,texto);
 	
 	return 0;
 }
