@@ -41,7 +41,7 @@ char charSub(int posicao)
     return caractereSub[posicao];
 }
 
-string descripto(string letter,string chave)
+string desSubstituicao(string letter,string chave)
 {
     int incremento=23;
     for (int i = 0; i < letter.length(); i++)
@@ -69,18 +69,56 @@ string descripto(string letter,string chave)
     
        return letter;
 }
+void desTransposicao(string frase){
+
+    int palavras=0,j=0;
+    
+      //cout << frase<<endl;
+      
+      for (int i=1;i<100;i++){
+        if (frase[i] == ' '){
+          j=i-1;
+         // cout <<j <<endl;
+          break;
+        }
+      }
+    
+      for (int d=1;d<=j;d++){
+        for (int i=0; i<1000;i++){
+          if (frase[i] == ' '){
+            palavras++;	
+          cout << frase[i+=d] << " ";
+        }
+       }
+      }
+    cout <<endl;
+
+}
 
 int main()
 {
 
     string chave, textoClaro, textoCripto;
+    int opcao;
     
     cout << "Digite o texto critografado: ";
     getline(cin, textoCripto);
     cout << "Digite a chave de criptografia: ";
     cin >> chave;
 
-    textoClaro = descripto(textoCripto,chave);
+     cout << "Escolha a opcao: "<< endl<<"1 - Substituicao "<< endl <<"2 - Transposicao "<< endl<<"3 - Substituicao e Transposicao "<<endl  ;
+    cin >> opcao;
+      
+    switch(opcao){
+                  case 1:
+                  textoClaro = desSubstituicao(textoCripto,chave);
+                  break;
+                  case 3:
+                  case 2:
+                  desTransposicao(textoCripto);
+                  break;
+    }
+
     cout << textoClaro << endl;
 
     system("pause");
