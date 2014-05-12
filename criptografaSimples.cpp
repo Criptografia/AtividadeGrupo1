@@ -1,6 +1,5 @@
 #include <iostream>
-#include <string>
-#include <cstdlib>
+#include <fstream.h> 
 using namespace std;
 
 int valorChar(char letra)
@@ -21,7 +20,7 @@ int valorChar(char letra)
 
 char charSub(int posicao)
 {
-    string  caractereSub="-uÇq=2[&a4io*sp/5;t3]y6.7,8_9+x>Gc0{¨OPk)jA?D:fFz1<H!J@K#vbL$w}Se%ZçrªXºC¹ghV²B³N£M¢Q¬W§E´Rln`T~Y^U|I(d";
+    string  caractereSub="-uÇq=2[&a4io*sp/5;t3]y6.7,8_9+x>Gc0{OPk)jA?D:fFz1<H!J@K#vbL$w}Se%ZçrªXºC¹ghV²B³N£M¢Q¬W§E´Rln`T~Y^U|I(d";
     
     return caractereSub[posicao];
 }
@@ -41,7 +40,7 @@ string subtituicao(string letter,string chave)
         {
            return("Chave invalida.");
         }
-        int incrementoTotal = (chaveAtual+incremento)%42;
+        int incrementoTotal = (chaveAtual+incremento)%41;
         
         x+=incrementoTotal;
        
@@ -128,15 +127,21 @@ void transposicao (string texto, string key){
 }
 
 
-int main()
-{
+
+int main(){
 
     string chave, textoClaro, textoCripto;
+    
+    ofstream outFile("textoCriptografado.txt",ios_base::out);
+    
+    ifstream inTexto ("textoClaro.txt", ios_base::in );
+    
+    ifstream inChave ("chave.txt", ios_base::in );
+    
+    getline(inTexto, textoClaro);
+    getline(inChave, chave);
+  
     int opcao=0;
-    cout << "Digite o texto a ser critografado: ";
-    getline(cin, textoClaro);
-    cout << "Digite a chave de criptografia: ";
-    cin >> chave;
     
     cout << "Escolha a opcao: "<< endl<<"1 - Substituicao "<< endl <<"2 - Transposicao "<< endl<<"3 - Substituicao e Transposicao "<<endl  ;
     cin >> opcao;
@@ -152,9 +157,8 @@ int main()
                   break;
     }
 
-    cout << textoCripto << endl;
+    outFile << textoCripto << endl;
 
 
-    system("pause");
     return 0;
 }
