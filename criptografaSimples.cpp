@@ -28,6 +28,7 @@ char charSub(int posicao)
 string subtituicao(string letter,string chave)
 {
     int incremento=23;
+    int chaveAtual=0;
     for (int i = 0; i < letter.length(); i++)
     {
         int x = valorChar(letter[i]);
@@ -35,7 +36,7 @@ string subtituicao(string letter,string chave)
         {
            return("Caracter invalido.");
         }
-        int chaveAtual = valorChar(chave[i%chave.length()]);
+        chaveAtual = valorChar(chave[i%chave.length()]);
         if(chaveAtual==-1)
         {
            return("Chave invalida.");
@@ -53,77 +54,80 @@ string subtituicao(string letter,string chave)
     
        return letter;
 }
-void transposicao (string texto, string key){
-//	cout << "Entrou na Funcao\n";
-//	cout << "A chave e: "<<key <<endl;
-//	cout << "O texto antes da transposicao: " <<texto <<endl;	
-
-
-	//TRANSPOSICAO
-
-	int tam = texto.length();
 
 
 
-	//DEFINIR O NUMERO DE COLUNAS
-	int num_col;
+string transposicao (string texto, string chave){
 
-	if (tam%8==0){
-		num_col = tam/8;
-	}
-	else  {
-		num_col = (tam/8)+1;
-	}
+     int posicao[8];
+     
+     for(int i=0; i<8; i++){
+             posicao[i]=-1;
+     }
+     
+     int incremento=23;
+     int chaveAtual=0;
+     int incrementoTotal=0;     
+     
+     for(int i=0; i<8; i++){
+             int teste=0;
+             
+             chaveAtual = valorChar(chave[i%chave.length()]);
+             incrementoTotal = (chaveAtual+incremento)%8;
+          
+             
+             do{
+              
+                 
+                 if(posicao[incrementoTotal]== -1){
+                      posicao[incrementoTotal]=i;
+                      
 
-	char transp[8][num_col];
-//
+                 }
+                 else{
+                      if(teste==1){
+                           incrementoTotal++;
+                      }
+                      if(incrementoTotal>0 && teste==0){
+                           incrementoTotal--;
+                      }
+                      else{
+                           teste=1;       
+                      }
+                 }
+                 
+             }while( posicao[incrementoTotal]!= i );
+             
+             incremento=incrementoTotal;
+     }
+     
+     int incrementoFinal=0;
+     string textoFinal=texto;
+     for (int i = 0; i < texto.length(); i++){
+        int posicaoFinal=posicao[i%8],incrementoPosicao=i/8, diferenca=texto.length()%8;
+      
+        if (texto.length()-i>diferenca){
+            textoFinal[posicaoFinal+incrementoPosicao*8]=texto[i];
+        }
+        else{
+             posicaoFinal=posicao[(i+incrementoFinal)%8];
+        
+             while(true){
 
-	for (int i=0; i<tam;i++){
-		if (isspace(texto[i])){
-		texto[i]+=1;
-		}
-		for (int k=1;k<num_col;k++){
-			if (i<k*8){
-				transp[i%8][0] = texto[i];
-				break;
-			}
-			else if (i>=k*8 && i<(k+1)*8){
-				transp[i%8][k] = texto[i];
-				break;
-			}
-
-		}		
-
-
-	}
-
-//	EXIBIR A MATRIZ
-//	for (int i=0;i<8;i++){
-//		for (int j=0;j<num_col;j++){
-//		
-//		if (j == (num_col-1)){
-//		cout << transp[i][j] <<endl;	
-//		}
-//		else
-//		cout << transp[i][j] <<" ";
-//		}
-//	}
-
-
-	//APLICAR A CHAVE
-//	int change = key.length();
-//	char aux[num_col];
-
-//	cout << "Texto depois da transposicao:"; 
-	for (int i=0;i<8;i++){
-		for (int j=0;j<num_col;j++){
-			cout << transp[i][j];
-		}
-		cout <<" ";	
-	}
-
-
-
+                 if (posicaoFinal>=diferenca){
+                    incrementoFinal ++;
+                 
+                    posicaoFinal=posicao[(i+incrementoFinal)%8];
+                 }
+                 else{
+                       textoFinal[posicaoFinal+incrementoPosicao*8]=texto[i];
+                      break;
+                 }
+            
+            } 
+        }
+    }
+    return textoFinal;
 }
 
 
@@ -132,11 +136,11 @@ int main(){
 
     string chave, textoClaro, textoCripto;
     
-    ofstream outFile("textoCriptografado.txt",ios_base::out);
-    
     ifstream inTexto ("textoClaro.txt", ios_base::in );
     
     ifstream inChave ("chave.txt", ios_base::in );
+    
+    ofstream outFile("textoCriptografado.txt",ios_base::out);
     
     getline(inTexto, textoClaro);
     getline(inChave, chave);
@@ -153,12 +157,11 @@ int main(){
                   case 3:
                   textoClaro = subtituicao(textoClaro,chave);
                   case 2:
-                  transposicao(textoClaro,chave);
+                  textoCripto=transposicao(textoClaro,chave);
                   break;
     }
-
+    
     outFile << textoCripto << endl;
-
 
     return 0;
 }
