@@ -1,10 +1,9 @@
 #include <iostream>
-#include <string>
-#include <cstdlib>
+#include <fstream.h> 
 using namespace std;
 int valorChar(char letra)
 {
-   string  caracteres="-uÇq=2[&a4io*sp/5;t3]y6.7,8_9+x>Gc0{¨OPk)jA?D:fFz1<H!J@K#vbL$w}Se%ZçrªXºC¹ghV²B³N£M¢Q¬W§E´Rln`T~Y^U|I(d";
+   string  caracteres="-uÇq=2[&a4io*sp/5;t3]y6.7,8_9+x>Gc0{OPk)jA?D:fFz1<H!J@K#vbL$w}Se%ZçrªXºC¹ghV²B³N£M¢Q¬W§E´Rln`T~Y^U|I(d";
    
     for (int i = 0; i < caracteres.length(); i++)
     {
@@ -56,7 +55,7 @@ string desSubstituicao(string letter,string chave)
         {
            return("Chave invalida.");
         }
-        int incrementoTotal = (chaveAtual+incremento)%42;
+        int incrementoTotal = (chaveAtual+incremento)%41;
         
         x-=incrementoTotal;
        
@@ -99,12 +98,18 @@ int main()
 {
 
     string chave, textoClaro, textoCripto;
-    int opcao;
     
-    cout << "Digite o texto critografado: ";
-    getline(cin, textoCripto);
-    cout << "Digite a chave de criptografia: ";
-    cin >> chave;
+    ifstream inTexto("textoCriptografado.txt",ios_base::in);
+    
+    ifstream inChave ("chave.txt", ios_base::in );
+    
+    ofstream outFile ("textoDescriptografado.txt", ios_base::out );
+    
+    getline(inTexto, textoCripto);
+    getline(inChave, chave);
+    
+    
+    int opcao;
 
      cout << "Escolha a opcao: "<< endl<<"1 - Substituicao "<< endl <<"2 - Transposicao "<< endl<<"3 - Substituicao e Transposicao "<<endl  ;
     cin >> opcao;
@@ -119,8 +124,8 @@ int main()
                   break;
     }
 
-    cout << textoClaro << endl;
+    outFile << textoClaro << endl;
 
-    system("pause");
+
     return 0;
 }
