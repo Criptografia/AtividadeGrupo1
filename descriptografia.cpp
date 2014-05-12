@@ -68,30 +68,78 @@ string desSubstituicao(string letter,string chave)
     
        return letter;
 }
-void desTransposicao(string frase){
+string desTransposicao (string texto, string chave){
 
-    int palavras=0,j=0;
+     int posicao[8];
+     
+     for(int i=0; i<8; i++){
+             posicao[i]=-1;
+     }
+     
+     int incremento=23;
+     int chaveAtual=0;
+     int incrementoTotal=0;     
+     
+     for(int i=0; i<8; i++){
+             int teste=0;
+             
+             chaveAtual = valorChave(chave[i%chave.length()]);
+             incrementoTotal = (chaveAtual+incremento)%8;
+          
+             
+             do{
+              
+                 
+                 if(posicao[incrementoTotal]== -1){
+                      posicao[incrementoTotal]=i;
+                      
+
+                 }
+                 else{
+                      if(teste==1){
+                           incrementoTotal++;
+                      }
+                      if(incrementoTotal>0 && teste==0){
+                           incrementoTotal--;
+                      }
+                      else{
+                           teste=1;       
+                      }
+                 }
+                 
+             }while( posicao[incrementoTotal]!= i );
+             
+             incremento=incrementoTotal;
+     }
     
-      //cout << frase<<endl;
+     
+     int incrementoFinal=0;
+     string textoFinal=texto;
+     for (int i = 0; i < texto.length(); i++){
+        int posicaoFinal=posicao[i%8],incrementoPosicao=i/8, diferenca=texto.length()%8;
       
-      for (int i=1;i<100;i++){
-        if (frase[i] == ' '){
-          j=i-1;
-         // cout <<j <<endl;
-          break;
+        if (texto.length()-i>diferenca){
+            textoFinal[i]=texto[posicaoFinal+incrementoPosicao*8];
         }
-      }
-    
-      for (int d=1;d<=j;d++){
-        for (int i=0; i<1000;i++){
-          if (frase[i] == ' '){
-            palavras++;	
-          cout << frase[i+=d] << " ";
-        }
-       }
-      }
-    cout <<endl;
+        else{
+             posicaoFinal=posicao[(i+incrementoFinal)%8];
+        
+             while(true){
 
+                 if (posicaoFinal>=diferenca){
+                    incrementoFinal ++;
+                 
+                    posicaoFinal=posicao[(i+incrementoFinal)%8];
+                 }
+                 else{
+                       textoFinal[i]=texto[posicaoFinal+incrementoPosicao*8];
+                      break;
+                 }
+            
+            } 
+        }
+    }
+    return textoFinal;
 }
 
 int main()
@@ -118,14 +166,16 @@ int main()
                   case 1:
                   textoClaro = desSubstituicao(textoCripto,chave);
                   break;
-                  case 3:
                   case 2:
-                  desTransposicao(textoCripto);
+                  textoClaro = desTransposicao(textoCripto, chave);
                   break;
+                  case 3:
+                  textoClaro = desTransposicao(textoCripto, chave);
+                  textoClaro = desSubstituicao(textoClaro,chave);
+                       
     }
 
     outFile << textoClaro << endl;
-
 
     return 0;
 }
